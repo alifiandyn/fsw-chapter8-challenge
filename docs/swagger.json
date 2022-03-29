@@ -1,0 +1,678 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Binar Academy Chapter 8 Challenge",
+    "description": "Learn to create API Documentations",
+    "termsOfService": "http://alifiandyn.com/terms/",
+    "contact": {
+      "name": "API Support",
+      "url": "http://www.alifiandyn.com/support",
+      "email": "support@example.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4000",
+      "description": "Development Server"
+    },
+    {
+      "url": "http://production.com",
+      "description": "Production Server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Player",
+      "description": "API to manipulation data player"
+    }
+  ],
+  "paths": {
+    "/api/v1/players": {
+      "get": {
+        "tags": ["Player"],
+        "summary": "API to get data player with or without condition",
+        "operationId": "getDataPlayer",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "type": "string",
+            "format": "email",
+            "required": false
+          },
+          {
+            "name": "experience",
+            "in": "query",
+            "type": "integer",
+            "required": false
+          },
+          {
+            "name": "lvl",
+            "in": "query",
+            "type": "integer",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucessful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/player"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "error operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "error operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Player"],
+        "summary": "API to create data player",
+        "operationId": "createDataPlayer",
+        "requestBody": {
+          "description": "Create new player",
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/createPlayer"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createPlayer"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "sucessful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/player"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "error operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "error operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/players/{id}": {
+      "get": {
+        "tags": ["Player"],
+        "summary": "API to get data player by ID",
+        "operationId": "getPlayerByID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique ID of Player",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "1"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucessful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/player"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "error operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "error operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string",
+                      "example": "Not found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Player with 10 not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "error operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Player"],
+        "summary": "API to edit data player",
+        "operationId": "editDataPlayer",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique ID of Player",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "1"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Update exsisting player data",
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/updatePlayer"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updatePlayer"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "sucessful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Player with id: 1 successfully updated"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "error operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "error operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string",
+                      "example": "Not found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Player with 10 not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "error operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Failed to update"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Player"],
+        "summary": "API to delete player",
+        "operationId": "deletePlayer",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique ID of Player",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "1"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucessful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Player with id: 1, was deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "error operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string",
+                      "example": "FAILED"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cannot delete Player with id=1. Maybe Player was not found!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "error operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/players/exp/{id}": {
+      "post": {
+        "tags": ["Player"],
+        "summary": "API to update player experience",
+        "operationId": "updatePlayerExperience",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique ID of Player",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "1"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Update exsisting player experience",
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/updatePlayerExp"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updatePlayerExp"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "sucessful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Player with id = 10 gain 10000 experience. Total experience = 1100000"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "error operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string",
+                      "example": "Failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Exp field cannot be empty"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "error operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string",
+                      "example": "Not found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Player with 10 not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "error operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "getDataPlayer": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "PussySlayer613"
+          },
+          "email": {
+            "type": "string",
+            "example": "pussy.slay3r@gmail.com"
+          },
+          "experience": {
+            "type": "integer",
+            "example": 600000
+          },
+          "lvl": {
+            "type": "integer",
+            "example": 600
+          }
+        }
+      },
+      "createPlayer": {
+        "required": ["username", "email", "password"],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "PussySlayer613"
+          },
+          "password": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "example": "pussy.slay3r@gmail.com"
+          }
+        }
+      },
+      "updatePlayer": {
+        "required": ["password", "email"],
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "example": "pussy.slay3r@gmail.com"
+          }
+        }
+      },
+      "updatePlayerExp": {
+        "required": ["exp"],
+        "type": "object",
+        "properties": {
+          "exp": {
+            "type": "integer"
+          }
+        }
+      },
+      "player": {
+        "required": ["username", "email"],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "username": {
+            "type": "string",
+            "example": "PussySlayer613"
+          },
+          "email": {
+            "type": "string",
+            "example": "pussy.slay3r@gmail.com"
+          },
+          "password": {
+            "type": "string"
+          },
+          "experience": {
+            "type": "integer",
+            "example": 600000
+          },
+          "lvl": {
+            "type": "integer",
+            "example": 600
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    }
+  }
+}
