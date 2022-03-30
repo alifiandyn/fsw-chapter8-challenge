@@ -135,3 +135,6 @@ dist
 # build files
 build/*
 dist/*
+
+# Client app
+client/node_modules
